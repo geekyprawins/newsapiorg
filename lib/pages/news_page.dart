@@ -30,22 +30,31 @@ class _NewsPageState extends State<NewsPage> {
       ),
       body: Column(
         children: [
-          DropdownButton<String>(
-            value: selectedCategory,
-            items: categories.map((String category) {
-              return DropdownMenuItem<String>(
-                value: category,
-                child: Text(category.toUpperCase()),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                setState(() {
-                  selectedCategory = newValue;
-                });
-                newsBloc.add(FetchNewsEvent(category: selectedCategory));
-              }
-            },
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: 'Select a category',
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              ),
+              style: const TextStyle(fontSize: 16.0, color: Colors.black), // Text style
+              value: selectedCategory,
+              items: categories.map((String category) {
+                return DropdownMenuItem<String>(
+                  value: category,
+                  child: Text(category.toUpperCase()),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    selectedCategory = newValue;
+                  });
+                  newsBloc.add(FetchNewsEvent(category: selectedCategory));
+                }
+              },
+            ),
           ),
           BlocBuilder<NewsBloc, NewsState>(
             builder: (context, state) {
